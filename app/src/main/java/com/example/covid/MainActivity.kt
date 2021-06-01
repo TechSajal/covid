@@ -65,6 +65,12 @@ class MainActivity : AppCompatActivity() {
                startActivity(intent)
                finish()
            }
+        val statewise:LinearLayout = findViewById(R.id.statewise)
+          statewise.setOnClickListener {
+              val intents = Intent(this,StateWiseActivity::class.java)
+              startActivity(intents)
+
+          }
     }
         fun FetchData() {
             val queue = Volley.newRequestQueue(this)

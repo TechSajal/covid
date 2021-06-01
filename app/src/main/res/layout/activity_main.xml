@@ -472,7 +472,7 @@
             app:cardElevation="4dp">
 
             <LinearLayout
-                android:id="@+id/activity_main_statewise_lin"
+                android:id="@+id/statewise"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
