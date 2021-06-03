@@ -1,35 +1,64 @@
 package com.example.covid
 
-import android.app.DownloadManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.covid.Adapter.StateWiseAdapter
+import com.example.covid.adapter.stateWiseAdapter
 import com.example.covid.model.StateWiseModel
 import org.json.JSONObject
-import kotlin.properties.Delegates
+import java.util.*
+import kotlin.collections.ArrayList
 
- class StateWiseActivity : AppCompatActivity() {
-    private lateinit var mAdapter: StateWiseAdapter
+class StateWiseActivity : AppCompatActivity() {
+    private var stateWiseModelArrayList: ArrayList<StateWiseModel> = ArrayList()
+    private lateinit var mAdapter: stateWiseAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_state_wise)
         supportActionBar!!.title = "Select State"
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
         val recyclerviewstate:RecyclerView = findViewById(R.id.activity_state_wise_recyclerview)
         recyclerviewstate.layoutManager = LinearLayoutManager(this)
         recyclerviewstate.setHasFixedSize(true)
          FetchStateData()
-         mAdapter = StateWiseAdapter()
+         mAdapter = stateWiseAdapter()
          recyclerviewstate.adapter =mAdapter
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.activity_state_wise_swipe_refresh_layout)
+        swipeRefreshLayout.setOnRefreshListener {
+            FetchStateData()
+            swipeRefreshLayout.isRefreshing = false
+        }
+        val search: EditText = findViewById(R.id.activity_state_wise_search_editText)
+                        search.addTextChangedListener(object :TextWatcher{
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int, ) {}
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int, ) {}
+                            override fun afterTextChanged(s: Editable?) {
+                                 Filters(s.toString())
+                            }
 
+                        })
+
+
+
+    }
+    private fun Filters(text: String) {
+        val filteredList = ArrayList<StateWiseModel>()
+        for (item in stateWiseModelArrayList) {
+            if (item.state.toLowerCase(Locale.getDefault()).contains(text.toLowerCase(Locale.getDefault()))) {
+                filteredList.add(item)
+            }
+        }
+        mAdapter.updatestatedata(filteredList)
     }
 
     private fun FetchStateData() {
@@ -40,7 +69,8 @@ import kotlin.properties.Delegates
             url,
             null,{  Response ->
                 val statejsonarray = Response.getJSONArray("statewise")
-                  val statearray = ArrayList<StateWiseModel>()
+                  stateWiseModelArrayList.clear()
+              // val statearraylist:ArrayList<StateWiseModel> = ArrayList()
                 for ( i in 1 until statejsonarray.length()) {
                    val statejsonobject:JSONObject = statejsonarray.getJSONObject(i)
                    val statedata = StateWiseModel(
@@ -54,20 +84,25 @@ import kotlin.properties.Delegates
                        statejsonobject.getString("deltarecovered"),
                        statejsonobject.getString("lastupdatedtime")
                    )
-                    statearray.add(statedata)
+                //     statearraylist.add(statedata)
+                     stateWiseModelArrayList.add(statedata)
+
+
                 }
 
                 Handler().postDelayed({
-
-                    mAdapter.updatestatedata(statearray)
+                    mAdapter.updatestatedata(stateWiseModelArrayList)
 
                 }, 1000)
 
                  }
+
             ,{Response ->
 
 
             })
              queue.add(jsonObjectRequest)
     }
+
+
 }
