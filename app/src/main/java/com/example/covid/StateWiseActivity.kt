@@ -31,7 +31,7 @@ class StateWiseActivity : AppCompatActivity() {
         recyclerviewstate.layoutManager = LinearLayoutManager(this)
         recyclerviewstate.setHasFixedSize(true)
          FetchStateData()
-         mAdapter = stateWiseAdapter()
+         mAdapter = stateWiseAdapter(this)
          recyclerviewstate.adapter =mAdapter
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.activity_state_wise_swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
@@ -70,7 +70,6 @@ class StateWiseActivity : AppCompatActivity() {
             null,{  Response ->
                 val statejsonarray = Response.getJSONArray("statewise")
                   stateWiseModelArrayList.clear()
-              // val statearraylist:ArrayList<StateWiseModel> = ArrayList()
                 for ( i in 1 until statejsonarray.length()) {
                    val statejsonobject:JSONObject = statejsonarray.getJSONObject(i)
                    val statedata = StateWiseModel(
@@ -84,8 +83,7 @@ class StateWiseActivity : AppCompatActivity() {
                        statejsonobject.getString("deltarecovered"),
                        statejsonobject.getString("lastupdatedtime")
                    )
-                //     statearraylist.add(statedata)
-                     stateWiseModelArrayList.add(statedata)
+                    stateWiseModelArrayList.add(statedata)
 
 
                 }
