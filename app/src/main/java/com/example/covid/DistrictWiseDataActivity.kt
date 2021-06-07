@@ -4,8 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -13,6 +17,7 @@ import com.example.covid.adapter.DistrictWiseAdapter
 import com.example.covid.model.DistrictWiseModel
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DistrictWiseDataActivity : AppCompatActivity() {
     private var districtWiseModelArrayList: ArrayList<DistrictWiseModel> = ArrayList()
@@ -29,8 +34,38 @@ class DistrictWiseDataActivity : AppCompatActivity() {
         recyclerviewdistrict.adapter = mAdapter
         val intent:Intent = intent
            str_state_name = intent.getStringExtra("statename")
+
+        val search :EditText = findViewById(R.id.activity_district_wise_search_editText)
+         search.addTextChangedListener(object :TextWatcher{
+             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+             override fun afterTextChanged(s: Editable?) {
+                    filterDistrict(s.toString())
+             }
+
+         })
+
+        val swipeRefreshLayout:SwipeRefreshLayout = findViewById(R.id.activity_district_wise_swipe_refresh_layout)
+         swipeRefreshLayout.setOnRefreshListener {
+             fetchDistrictData()
+             swipeRefreshLayout.isRefreshing = false
+         }
+
+        supportActionBar!!.title = "District Areas of $str_state_name"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
     }
 
+      private fun filterDistrict(text: String){
+          val filterlistDistrict = ArrayList<DistrictWiseModel>()
+          for (item in districtWiseModelArrayList){
+              if (item.district.toLowerCase(Locale.getDefault()).contains(text.toLowerCase(Locale.getDefault()))){
+                  filterlistDistrict.add(item)
+              }
+          }
+            mAdapter.updateDistrictdata(filterlistDistrict)
+
+      }
     private fun fetchDistrictData() {
         val queue = Volley.newRequestQueue(this)
         val url = "https://api.covid19india.org/v2/state_district_wise.json"

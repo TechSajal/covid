@@ -47,9 +47,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_weight="1"
-                android:padding="4dp"
+                android:padding="6dp"
                 app:egInnerPaddingColor="#bee3db"
                 app:egLegendHeight="0dp"
+                app:egInnerValueSize="0dp"
                 />
 
             <LinearLayout

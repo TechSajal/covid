@@ -67,30 +67,20 @@ class EachStateDataActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             conf.text = NumberFormat.getInstance().format(Integer.parseInt(confirmed))
-            conf_new.text =
-                ("+" + NumberFormat.getInstance().format(Integer.parseInt(confirmed_new)))
+            conf_new.text = ("+" + NumberFormat.getInstance().format(Integer.parseInt(confirmed_new)))
             act.text = NumberFormat.getInstance().format(Integer.parseInt(active))
             rec.text = NumberFormat.getInstance().format(Integer.parseInt(recovered))
-            rec_new.text =
-                ("+" + NumberFormat.getInstance().format(Integer.parseInt(recovered_new)))
+            rec_new.text = ("+" + NumberFormat.getInstance().format(Integer.parseInt(recovered_new)))
             dea.text = NumberFormat.getInstance().format(Integer.parseInt(death))
             dea_new.text = ("+" + NumberFormat.getInstance().format(Integer.parseInt(death_new)))
             val mdate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US).parse(time)
             val dateformat = SimpleDateFormat("dd.MM.yyyy HH:mm").format(mdate)
             tim.text = dateformat
-            act_new.text =
-                (Integer.parseInt(confirmed_new) - (Integer.parseInt(death_new) + Integer.parseInt(
-                    recovered_new))).toString()
+            act_new.text = (Integer.parseInt(confirmed_new) - (Integer.parseInt(death_new) + Integer.parseInt(recovered_new))).toString()
             pieChart = findViewById(R.id.activity_each_state_piechart)
-            pieChart.addPieSlice(PieModel("Active",
-                Integer.parseInt(active).toFloat(),
-                Color.parseColor("#007afe")))
-            pieChart.addPieSlice(PieModel("Recovered",
-                Integer.parseInt(recovered).toFloat(),
-                Color.parseColor("#08a045")))
-            pieChart.addPieSlice(PieModel("Deceased",
-                Integer.parseInt(death).toFloat(),
-                Color.parseColor("#F6404F")))
+            pieChart.addPieSlice(PieModel("Active", Integer.parseInt(active).toFloat(), Color.parseColor("#007afe")))
+            pieChart.addPieSlice(PieModel("Recovered", Integer.parseInt(recovered).toFloat(), Color.parseColor("#08a045")))
+            pieChart.addPieSlice(PieModel("Deceased", Integer.parseInt(death).toFloat(), Color.parseColor("#F6404F")))
             pieChart.startAnimation()
         }, 1000)
 

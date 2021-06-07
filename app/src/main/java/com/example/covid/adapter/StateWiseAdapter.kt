@@ -28,7 +28,6 @@ class stateWiseAdapter(private var mContext: Context ):RecyclerView.Adapter<Stat
                  holder.state.text = currentitem.state
                  holder.cases.text =currentitem.confirmed
                  holder.linearlayout.setOnClickListener {
-                   //   val currentitem:StateWiseModel = item[position]
                       val intent = Intent(mContext,EachStateDataActivity::class.java)
                      intent.putExtra(Constants().STATE_NAME,currentitem.state)
                      intent.putExtra(Constants().STATE_ACTIVE,currentitem.active)
