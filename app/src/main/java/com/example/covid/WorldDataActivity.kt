@@ -1,11 +1,13 @@
 package com.example.covid
 
+import android.content.Intent
 import android.graphics.Color
 import android.icu.text.NumberFormat
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -47,6 +49,12 @@ class WorldDataActivity : AppCompatActivity() {
                    FetchDataWorld()
                    swipeRefreshLayout.isRefreshing = false
             }
+
+        val countrydata = findViewById<LinearLayout>(R.id.activity_world_data_countrywise_lin)
+        countrydata.setOnClickListener {
+            val intent = Intent(this,CountryWiseDataActivity::class.java)
+            startActivity(intent)
+        }
     }
     @RequiresApi(Build.VERSION_CODES.N)
     fun FetchDataWorld(){
