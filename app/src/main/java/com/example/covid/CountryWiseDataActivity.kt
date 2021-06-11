@@ -48,6 +48,7 @@ class CountryWiseDataActivity : AppCompatActivity() {
                     jsonObject.getString("deaths"),
                     jsonObject.getString("todayDeaths"),
                     jsonObject.getString("recovered"),
+                    jsonObject.getString("todayRecovered"),
                     jsonObject.getString("tests"),
                     jsonObjectFLAG.getString("flag")
                 )

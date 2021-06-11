@@ -37,15 +37,15 @@ class EachDistrictDataActivity : AppCompatActivity() {
     }
 
     fun fetcheachdistrictdata(){
-        val conf:TextView = findViewById(R.id.confirmed_district)
-        val conf_new:TextView = findViewById(R.id.confirmed_new_district)
-        val act: TextView = findViewById(R.id.active_district)
-        val act_new:TextView = findViewById(R.id.active_new_district)
-        val rec:TextView = findViewById(R.id.recovered_district)
-        val rec_new :TextView = findViewById(R.id.recovered_new_district)
-        val dea:TextView = findViewById(R.id.death_district)
-        val dea_new :TextView = findViewById(R.id.death_new_district)
-        val pieChart : PieChart = findViewById(R.id.activity_each_district_piechart)
+        val conf:TextView = findViewById(R.id.confirmed_country)
+        val conf_new:TextView = findViewById(R.id.confirmed_new_country)
+        val act: TextView = findViewById(R.id.active_country)
+        val act_new:TextView = findViewById(R.id.active_new_country)
+        val rec:TextView = findViewById(R.id.recovered_country)
+        val rec_new :TextView = findViewById(R.id.recovered_new_country)
+        val dea:TextView = findViewById(R.id.death_country)
+        val dea_new :TextView = findViewById(R.id.death_new_country)
+        val pieChart : PieChart = findViewById(R.id.activity_each_country_piechart)
         Handler().postDelayed({
               conf.text = NumberFormat.getInstance().format(Integer.parseInt(confirmed))
               conf_new.text = ("+" + NumberFormat.getInstance().format(Integer.parseInt(confirmed_new)))

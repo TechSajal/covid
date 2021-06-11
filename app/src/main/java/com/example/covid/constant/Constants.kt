@@ -21,4 +21,16 @@ package com.example.covid.constant
     val DISTRICT_DEATH_NEW = "districtDeathNew"
     val DISTRICT_RECOVERED = "districtRecovered"
     val DISTRICT_RECOVERED_NEW = "districtRecoveredNew"
+
+    //Country Data Keys
+    val COUNTRY_NAME = "country"
+    val COUNTRY_CONFIRMED = "cases"
+    val COUNTRY_ACTIVE = "active"
+    val COUNTRY_DECEASED = "deaths"
+    val COUNTRY_NEW_CONFIRMED = "todayCases"
+    val COUNTRY_TESTS = "tests"
+    val COUNTRY_NEW_DECEASED = "todayDeaths"
+    val COUNTRY_FLAGURL = "flag"
+    val COUNTRY_RECOVERED = "recovered"
+    val COUNTRY_NEW_RECOVERED = "new_recovered"
 }

@@ -8,6 +8,8 @@ data  class CountryWiseModel (
      val deceased: String,
      val newDeceased: String,
      val recovered: String,
+     val recovered_new:String,
      val tests: String,
      val flag: String
+
 )
