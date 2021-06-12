@@ -12,6 +12,7 @@ import org.eazegraph.lib.models.PieModel
 import java.text.NumberFormat
 
 class EachDistrictDataActivity : AppCompatActivity() {
+    private val activity = MainActivity()
     private var confirmed: String? = null
     private  var confirmed_new:String? = null
     private  var active:String? = null
@@ -37,6 +38,7 @@ class EachDistrictDataActivity : AppCompatActivity() {
     }
 
     fun fetcheachdistrictdata(){
+       activity.showdialog(this)
         val conf:TextView = findViewById(R.id.confirmed_country)
         val conf_new:TextView = findViewById(R.id.confirmed_new_country)
         val act: TextView = findViewById(R.id.active_country)
@@ -59,6 +61,7 @@ class EachDistrictDataActivity : AppCompatActivity() {
             pieChart.addPieSlice(PieModel("Recovered", Integer.parseInt(recovered).toFloat(), Color.parseColor("#08a045")))
             pieChart.addPieSlice(PieModel("Deceased", Integer.parseInt(death).toFloat(), Color.parseColor("#F6404F")))
             pieChart.startAnimation()
-                              },1000)
+             activity.DismissDialog()
+                              },2000)
     }
 }

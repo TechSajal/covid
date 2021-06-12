@@ -13,6 +13,7 @@ import org.w3c.dom.Text
 import java.text.NumberFormat
 
 class EachCountryDataActivity : AppCompatActivity() {
+    private val activity = MainActivity()
     private var confirmed: String? = null
     private  var confirmed_new:String? = null
     private  var active:String? = null
@@ -41,6 +42,7 @@ class EachCountryDataActivity : AppCompatActivity() {
     }
 
     fun fetcheachcountrydata(){
+          activity.showdialog(this)
         var conf :TextView = findViewById(R.id.activity_each_country_data_confirmed_textView)
         val conf_new :TextView = findViewById(R.id.activity_each_country_data_confirmed_new_textView)
         val act :TextView = findViewById(R.id.activity_each_country_data_active_textView)
@@ -65,6 +67,7 @@ class EachCountryDataActivity : AppCompatActivity() {
             piechart.addPieSlice(PieModel("Recovered", Integer.parseInt(recovered).toFloat(), Color.parseColor("#08a045")))
             piechart.addPieSlice(PieModel("Deceased", Integer.parseInt(death).toFloat(), Color.parseColor("#F6404F")))
             piechart.startAnimation()
-                              },1000)
+            activity.DismissDialog()
+                              },2000)
     }
 }

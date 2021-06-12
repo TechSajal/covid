@@ -19,6 +19,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class StateWiseActivity : AppCompatActivity() {
+    private val activity = MainActivity()
     private var stateWiseModelArrayList: ArrayList<StateWiseModel> = ArrayList()
     private lateinit var mAdapter: stateWiseAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +63,7 @@ class StateWiseActivity : AppCompatActivity() {
     }
 
     private fun FetchStateData() {
+      activity.showdialog(this)
       val queue = Volley.newRequestQueue(this)
         val url = "https://api.covid19india.org/data.json"
         val jsonObjectRequest = JsonObjectRequest(
@@ -90,8 +92,8 @@ class StateWiseActivity : AppCompatActivity() {
 
                 Handler().postDelayed({
                     mAdapter.updatestatedata(stateWiseModelArrayList)
-
-                }, 1000)
+                     activity.DismissDialog()
+                }, 2000)
 
                  }
 

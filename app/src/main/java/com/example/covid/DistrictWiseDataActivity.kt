@@ -20,7 +20,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class DistrictWiseDataActivity : AppCompatActivity() {
-    private var districtWiseModelArrayList: ArrayList<DistrictWiseModel> = ArrayList()
+    private val activity = MainActivity()
+      private var districtWiseModelArrayList: ArrayList<DistrictWiseModel> = ArrayList()
        private var str_state_name:String? = null
     private lateinit var mAdapter: DistrictWiseAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +68,7 @@ class DistrictWiseDataActivity : AppCompatActivity() {
 
       }
     private fun fetchDistrictData() {
+           activity.showdialog(this)
         val queue = Volley.newRequestQueue(this)
         val url = "https://api.covid19india.org/v2/state_district_wise.json"
         val jsonArrayRequest = JsonArrayRequest(
@@ -96,7 +98,8 @@ class DistrictWiseDataActivity : AppCompatActivity() {
 
                                                Handler().postDelayed({
                                                    mAdapter.updateDistrictdata(districtWiseModelArrayList)
-                                               },1000)
+                                       activity.DismissDialog()
+                                               },2000)
 
 
 

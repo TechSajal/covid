@@ -5,6 +5,7 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -17,7 +18,7 @@ import kotlin.collections.ArrayList
 
 
 class CountryWiseDataActivity : AppCompatActivity() {
-
+    private val activity = MainActivity()
     private lateinit var mAdapter :CountryWiseAdapter
     private var countryWiseModelArrayList: ArrayList<CountryWiseModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +30,17 @@ class CountryWiseDataActivity : AppCompatActivity() {
         mAdapter = CountryWiseAdapter(this)
         recyclerView.adapter = mAdapter
         fetchcountrydata()
+        val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.activity_country_wise_swipe_refresh_layout)
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchcountrydata()
+            swipeRefreshLayout.isRefreshing = false
+        }
 
     }
 
+
     private fun fetchcountrydata() {
+          activity.showdialog(this)
         val url = "https://corona.lmao.ninja/v2/countries"
         val queue = Volley.newRequestQueue(this)
         countryWiseModelArrayList.clear()
@@ -63,7 +71,8 @@ class CountryWiseDataActivity : AppCompatActivity() {
             }
             Handler().postDelayed({
                                        mAdapter.updateDistrictdata(countryWiseModelArrayList)
-                 },1000)
+                       activity.DismissDialog()
+                 },2000)
 
 
 

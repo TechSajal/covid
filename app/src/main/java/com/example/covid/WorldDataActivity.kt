@@ -4,12 +4,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.icu.text.NumberFormat
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -18,7 +18,7 @@ import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
 
 class WorldDataActivity : AppCompatActivity() {
-
+    private val activity = MainActivity()
     private  lateinit var confirm_world:TextView
     private lateinit var confirm_new_world:TextView
     private  lateinit var active_world:TextView
@@ -58,6 +58,7 @@ class WorldDataActivity : AppCompatActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.N)
     fun FetchDataWorld(){
+          activity.showdialog(this)
         val queue = Volley.newRequestQueue(this)
         val url = "https://corona.lmao.ninja/v2/all"
         val jsonObjectRequest = JsonObjectRequest(
@@ -98,8 +99,8 @@ class WorldDataActivity : AppCompatActivity() {
                     pieChart.addPieSlice(PieModel("Recovered", Integer.parseInt(rec_world).toFloat(), Color.parseColor("#08a045")))
                     pieChart.addPieSlice(PieModel("Deceased", Integer.parseInt(dea_world).toFloat(), Color.parseColor("#F6404F")))
                     pieChart.startAnimation()
-
-                },1000)
+                    activity.DismissDialog()
+                },2000)
 
 
 

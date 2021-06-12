@@ -1,6 +1,8 @@
 package com.example.covid
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -24,6 +27,8 @@ import java.util.*
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity() {
 
+    private var progressDialog: ProgressDialog? = null
+    private var animation :LottieAnimationView? = null
     private var confirmed: String? = null
     private  var confirmed_new:String? = null
     private  var active:String? = null
@@ -52,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.title = "Covid-19 Tracker (India)"
-          FetchData()
+        animation = findViewById(R.id.animation)
+        FetchData()
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
         swipeRefreshLayout.setOnRefreshListener {
                   FetchData()
@@ -72,7 +78,24 @@ class MainActivity : AppCompatActivity() {
 
           }
     }
+
+         fun  showdialog(context: Context){
+         progressDialog =  ProgressDialog(context)
+         progressDialog!!.show()
+          progressDialog!!.setContentView(R.layout.progress_dialog)
+         progressDialog!!.setCanceledOnTouchOutside(false)
+         progressDialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        // progressDialog.setCancelable(false)
+     }
+
+    fun DismissDialog(){
+        progressDialog!!.dismiss()
+
+    }
+
+
         fun FetchData() {
+            showdialog(this)
             val queue = Volley.newRequestQueue(this)
             val url = "https://api.covid19india.org/data.json"
             val jsonObjectRequest = JsonObjectRequest(
@@ -128,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                         pieChart.addPieSlice(PieModel("Recovered", Integer.parseInt(recovered).toFloat(), Color.parseColor("#08a045")))
                         pieChart.addPieSlice(PieModel("Deceased", Integer.parseInt(death).toFloat(), Color.parseColor("#F6404F")))
                         pieChart.startAnimation()
-                                                   }, 1000)
+                        DismissDialog()                          }, 2000)
 
                 },
                 { response ->
